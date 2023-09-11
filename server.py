@@ -29,7 +29,7 @@ class Server:
             if client not in self.clients: #если клиента нет в списке клиентов - добавляем
                 name = client.recv(1024).decode('utf-8')
                 self.clients.append((client, name))
-                threading.Thread(target=self.message_handler, args=(client, name, address[0], )).start() #запускаем отдельный поток для отслеживания сообщений конкретного пользователя. т.е. будет создаваться отдельный поток под каждого пользователя(эт плохая практика но выбора нет)
+                threading.Thread(target=self.message_handler, args=(client, name, address[0], )).start() #запускаем отдельный поток для отслеживания сообщений конкретного пользователя. т.е. будет создаваться отдельный поток под каждого пользователя(эт плохая практика но асинхронщину писать лень)
                 print(f"{datetime.datetime.now()} | {name} | {address[0]} was connected")
                 for client_s in self.clients: #рассылаем всем пользователям инфу о подключении нового человека
                     client_s[0].send(f"{name} was connected!\n".encode('utf-8'))
